@@ -1,0 +1,83 @@
+*{
+    margin: 0;
+ 
+}
+
+
+/*****************************************************HEADER ******************/
+
+header{
+    display: flex;
+    justify-content: flex-end;
+    border: 1px solid black;
+    padding: 2%;
+}
+
+.jugar{
+  margin-right: 10%;  
+}
+
+#start{
+    background-color: rgb(203, 252, 113);
+    padding: .5%;
+}
+
+
+/**********************************************************PARAULA ************/
+
+/*letter spacing*/
+
+.adivinar{
+    display: flex;
+    justify-content: center;
+    background-color: rgb(200, 209, 243)
+    
+    
+}
+
+
+/***********************************************************JOC ***************/
+
+.joc{
+    display: flex;
+    background-color: rgb(251, 214, 214);
+    padding: 2%;
+    justify-content: center;
+    /*align-items: center;*/
+ 
+}
+
+.imagenes{
+    background-color: white;
+    
+}
+
+
+.estadisticas{
+    color: white;
+    background-color: rgb(188, 83, 113);
+  
+}
+
+
+
+
+
+
+/************************************************ABECEDARI *************************/
+
+.abecedari{
+    display: flex;
+    justify-content: center;
+    gap: 1%;
+    
+    
+}
+
+.abecedari button{
+    border: 1px solid black;
+    padding: .8%;
+    border: 1px solid red;
+    color: red;
+    background-color: rgb(203, 252, 113);
+}
