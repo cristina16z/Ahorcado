@@ -1,14 +1,14 @@
 
 //OBJECTES
 const word = document.getElementById("word");
-const start = document.getElementById("start");
+const empezar = document.getElementById("start");
 const imatge = document.getElementById("imatge");
 const adivinar = document.getElementById("adivinar");
+const MAX_INTENTS_JUGADES = 11;
 
 let wordSecret;
 let contador = 0;
 let paraulaActual = [];
-
 
 
 /************************************************  BUTTON COMENÇAR PARTIDA ******************************/
@@ -23,7 +23,7 @@ function startGame(){
 
     //añadir check de no pot contenir espais
     for(let i = 0; i<wordSecret.length; i++){
-        if(!isNaN(wordSecret[i]) && wordSecret[i] !== ' '){
+        if(!isNaN(wordSecret[i]) && wordSecret[i] !== ""){
             containsNumber = true;  
             break;
         }
@@ -34,7 +34,7 @@ function startGame(){
     if(wordSecret){
 
         if(containsNumber){
-            alert('La paraula no pot contenir números');
+            alert('La paraula no pot contenir números o espais en blanc');
             word.value = "";
             containsNumber = false;
             return;
@@ -45,7 +45,7 @@ function startGame(){
             console.log( wordSecretValid )
 
             word.disabled = true;
-            start.disabled = true;
+            empezar.disabled = true;
         }else{ 
             alert("Has d'introduir una paraula de minim 4 paraules");
         }
@@ -57,7 +57,6 @@ function startGame(){
 
 
     habilitarButton();
-
     actualitzarParaulaInicial();
     mostrarParaula();
 }
@@ -84,6 +83,9 @@ function actualitzarParaulaInicial(){
     for(let i=0; i<wordSecret.length; i++){
         paraulaActual.push("_");
     }
+
+    //Com començo la partida, afegeixo espai entre les lletres per al joc.
+    adivinar.style.letterSpacing = '20px';
 
 }
 
@@ -114,17 +116,44 @@ function jugarLletra(lletra){
             if(wordSecret[i] === lletraJugada){
                 paraulaActual[i] = lletraJugada;
             }
+
+            
         }
         mostrarParaula();
         console.log('existeix');
 
-    }else{
-        console.log('no existeix');
-    }
+        if (!paraulaActual.includes('_')) {
+            win()
+        }
 
-    contador++;
-    imatge.src = "imatges/penjat_" + contador + ".jpg";
-    console.log(lletraJugada + contador)
+    }else{
+
+        console.log('no existeix');
+        contador++;
+
+        //Canviar d'imatge, cada cop que fallis fins el màxim de l'ultima imatge
+        if( contador < MAX_INTENTS_JUGADES){
+            imatge.src = "imatges/penjat_" + contador + ".jpg";
+            console.log(lletraJugada + contador)
+        }
+
+        //Si es supera el máx número d'intents, PERDS
+        if (contador >= MAX_INTENTS_JUGADES){
+            lose();
+        }
+    }
+}
+
+
+//QUAN GUANYES
+function win(){
+    adivinar.style.backgroundColor = 'green';
+}
+
+
+//QUAN PERDS
+function lose(){
+    adivinar.style.backgroundColor = 'red';
 }
 
 
