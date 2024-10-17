@@ -25,13 +25,13 @@ header{
 
 /**********************************************************PARAULA ************/
 
-/*letter spacing*/
+
 
 .adivinar{
     display: flex;
     justify-content: center;
-    background-color: rgb(200, 209, 243)
-    
+    background-color: rgb(200, 209, 243);
+    padding: 2%;
     
 }
 
@@ -42,21 +42,52 @@ header{
     display: flex;
     background-color: rgb(251, 214, 214);
     padding: 2%;
-    justify-content: center;
-    /*align-items: center;*/
+    justify-content:space-between;
+   
  
 }
 
 .imagenes{
     background-color: white;
-    
+    border: 1px solid black;  
+    border-radius: 5px; 
+    /*width: 16vw;*/
 }
+
+#imatge{
+    width: 100%;
+    border-radius: 5px; 
+
+}
+
+
 
 
 .estadisticas{
     color: white;
     background-color: rgb(188, 83, 113);
-  
+    border: 1px solid black;  
+    border-radius: 5px; 
+    padding: 1%;
+    /*width: 12vw;*/
+    
+}
+
+.estadisticas h2{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15%;
+}
+
+.estadisticas p span{
+    display: flex;
+}
+
+.estadisticas p{
+    margin-bottom: 10%;
+}
+.vacio{
+    width: 15vw;
 }
 
 
@@ -74,10 +105,13 @@ header{
     
 }
 
+
+
 .abecedari button{
     border: 1px solid black;
     padding: .8%;
     border: 1px solid red;
     color: red;
     background-color: rgb(203, 252, 113);
+    border-radius: 3px;
 }
