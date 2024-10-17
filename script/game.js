@@ -9,6 +9,7 @@ const MAX_INTENTS_JUGADES = 11;
 let wordSecret;
 let contador = 0;
 let paraulaActual = [];
+let nlletra;
 
 
 /************************************************  BUTTON COMENÇAR PARTIDA ******************************/
@@ -105,6 +106,9 @@ function jugarLletra(lletra){
     
     let lletraJugada = lletra.textContent;
 
+    //deshabilitamos ése mismo botón/letra
+    lletra.disabled = true;
+    lletra.style.opacity = '0.5';
 
     const aux = wordSecret.includes(lletraJugada);
    /* const aux2 = wordSecret.indexOf(lletraJugada);*/
@@ -116,8 +120,6 @@ function jugarLletra(lletra){
             if(wordSecret[i] === lletraJugada){
                 paraulaActual[i] = lletraJugada;
             }
-
-            
         }
         mostrarParaula();
         console.log('existeix');
@@ -125,6 +127,7 @@ function jugarLletra(lletra){
         if (!paraulaActual.includes('_')) {
             win()
         }
+
 
     }else{
 
@@ -141,6 +144,8 @@ function jugarLletra(lletra){
         if (contador >= MAX_INTENTS_JUGADES){
             lose();
         }
+
+       
     }
 }
 
@@ -160,10 +165,10 @@ function lose(){
 function deshabilitarButton(){
 
     for(let i = 1; i<27; i++){
-
         let literal = "lletra_" + i;
         const botoA = document.getElementById(literal);
         botoA.disabled = true;
+        botoA.style.opacity = '0.5';
     }
 }
 
@@ -175,6 +180,7 @@ function habilitarButton(){
         let literal = "lletra_" + i;
         const botoA = document.getElementById(literal);
         botoA.disabled = false;
+        botoA.style.opacity = '1';
     }
 }
 
