@@ -120,7 +120,6 @@ header{
     opacity: 0.8;
     color: red;
     border: 1px solid red;
-    pointer-events: none; /* Desactivar interacción en botones deshabilitados */
 }
 
 

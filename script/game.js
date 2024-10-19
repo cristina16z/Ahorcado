@@ -4,6 +4,11 @@ const word = document.getElementById("word");
 const empezar = document.getElementById("empezar");
 const imatge = document.getElementById("imatge");
 const adivinar = document.getElementById("adivinar");
+const nPoints = document.getElementById("nPoints");
+const totalGames = document.getElementById("totalGames");
+const winGames = document.getElementById("winGames");
+const gameMaxPoints = document.getElementById("gameMaxPoints");
+
 const MAX_INTENTS_JUGADES = 10;
 const MAX_IMG = 11;
 
@@ -11,6 +16,10 @@ let wordSecret;
 let contador = 0;
 let paraulaActual = [];
 let nlletra;
+
+let punts = 0;
+let contador_totalPartidas = 0;
+let contador_wins = 0;
 
 
 /************************************************  BUTTON COMENÇAR PARTIDA ******************************/
@@ -59,6 +68,10 @@ function startGame(){
     }
 
 
+    //Incremento Total Paritdas
+    contador_totalPartidas++;
+    totalGames.textContent = contador_totalPartidas;
+
     habilitarButton();
     actualitzarParaulaInicial();
     mostrarParaula();
@@ -72,6 +85,8 @@ function reiniciarJoc(){
     adivinar.style.backgroundColor = "";
     contador = 0;
     imatge.src = "imatges/penjat_" + contador + ".jpg";
+    punts = 0;
+    nPoints.textContent = punts;
 }
 
 
@@ -129,6 +144,14 @@ function jugarLletra(lletra){
         for(let i = 0; i< wordSecret.length; i++){
             if(wordSecret[i] === lletraJugada){
                 paraulaActual[i] = lletraJugada;
+
+                if  (nPoints == 0){
+                    punts++;
+                    nPoints.textContent = punts;
+                }else{
+                    punts++;
+                    nPoints.textContent = punts;
+                }
             }
         }
         mostrarParaula();
@@ -143,6 +166,14 @@ function jugarLletra(lletra){
 
         console.log('no existeix');
         contador++;
+        punts--;
+        if(punts > 0){
+            nPoints.textContent = punts;
+        }else{
+            nPoints.textContent = 0;
+            punts = 0;
+        }
+        
 
         //Canviar d'imatge, cada cop que fallis fins el màxim de l'ultima imatge
         if( contador < MAX_IMG){
@@ -169,6 +200,9 @@ function deshabilitarLletra(lletra){
 //QUAN GUANYES
 function win(){
     adivinar.style.backgroundColor = 'rgb(220, 250, 166)';
+    contador_wins++;
+
+    winGames.textContent = contador_wins;
     habilitarPlayNewGame();
 }
 
@@ -186,6 +220,7 @@ function habilitarPlayNewGame(){
     empezar.disabled = false;
     word.value = "";
     word.disabled = false;
+    deshabilitarButton();
 }
 
 
@@ -208,3 +243,8 @@ function habilitarButton(){
 }
 
 deshabilitarButton();
+
+
+
+/********************************* ESTADÍSTIQUES **********/
+
