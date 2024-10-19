@@ -1,7 +1,7 @@
 
 //OBJECTES
 const word = document.getElementById("word");
-const empezar = document.getElementById("start");
+const empezar = document.getElementById("empezar");
 const imatge = document.getElementById("imatge");
 const adivinar = document.getElementById("adivinar");
 const MAX_INTENTS_JUGADES = 10;
@@ -19,6 +19,8 @@ let nlletra;
 function startGame(){
     wordSecret = word.value.toUpperCase();
 
+    reiniciarJoc(); 
+   
     let containsNumber = false;
     let wordSecretValid;
 
@@ -49,18 +51,27 @@ function startGame(){
             word.disabled = true;
             empezar.disabled = true;
         }else{ 
-            alert("Has d'introduir una paraula de minim 4 paraules");
+            alert("La paraula ha de contenir més de 3 caràcters");
         }
     
     }else{
-        alert("No has introduit una paraula");
+        alert("Has d'afegir una paraula per poder començar a jugar");
     }
-
 
 
     habilitarButton();
     actualitzarParaulaInicial();
     mostrarParaula();
+}
+
+
+//Resetejar els valors a l'hora de començar una nova partida (paraula, imatges, lletres,..)
+function reiniciarJoc(){
+    paraulaActual = [];
+    adivinar.textContent = "";
+    adivinar.style.backgroundColor = "";
+    contador = 0;
+    imatge.src = "imatges/penjat_" + contador + ".jpg";
 }
 
 
@@ -88,7 +99,6 @@ function actualitzarParaulaInicial(){
 
     //Com començo la partida, afegeixo espai entre les lletres per al joc.
     adivinar.style.letterSpacing = '20px';
-
 }
 
 
@@ -154,17 +164,28 @@ function jugarLletra(lletra){
 //QUAN GUANYES
 function win(){
     adivinar.style.backgroundColor = 'green';
+    habilitarPlayNewGame();
 }
 
 
 //QUAN PERDS
 function lose(){
     adivinar.style.backgroundColor = 'red';
+    habilitarPlayNewGame();
 }
 
 
-function deshabilitarButton(){
+//Habilitar input & button per Começar una nova partida
+function habilitarPlayNewGame(){
+    
+    empezar.disabled = false;
+    word.value = "";
+    word.disabled = false;
+}
 
+
+
+function deshabilitarButton(){
     for(let i = 1; i<27; i++){
         let literal = "lletra_" + i;
         const botoA = document.getElementById(literal);
@@ -175,9 +196,7 @@ function deshabilitarButton(){
 
 
 function habilitarButton(){
-
     for(let i = 1; i<27; i++){
-
         let literal = "lletra_" + i;
         const botoA = document.getElementById(literal);
         botoA.disabled = false;
