@@ -17,11 +17,15 @@ let contador = 0;
 let paraulaActual = [];
 let nlletra;
 
-let punts = 0;
+let puntscontador_lletra = 0;
 let contador_totalPartidas = 0;
 let contador_wins = 0;
 let puntsAnteriors = 0;
 
+let racha = false;
+let contador_racha = 0;
+let puntsActuals = 0;
+let puntsGuanyats = 0;
 
 
 
@@ -88,8 +92,13 @@ function reiniciarJoc(){
     contador = 0;
     imatge.src = "imatges/penjat_" + contador + ".jpg";
 
-    punts = 0;
-    nPoints.textContent = punts;
+    //estadístiques
+    puntsActuals = 0;
+    puntsGuanyats = 0;
+    contador_racha = 0; 
+    contador_lletra = 0;
+    racha = false;
+    nPoints.textContent = puntsActuals;
 }
 
 
@@ -143,35 +152,55 @@ function jugarLletra(lletra){
 
    
     if(aux){
+        contador_lletra = 0;
+
         //iteració per buscar la lletra i canviar la paraula actual per la posició en la que la troba
         for(let i = 0; i< wordSecret.length; i++){
             if(wordSecret[i] === lletraJugada){
                 paraulaActual[i] = lletraJugada;
-                punts++;
-                nPoints.textContent = punts;
+                racha = true;
+                contador_lletra++;
+                
             }
         }
+
+        if(racha){
+            contador_racha++;
+        }else{
+            contador_racha = 0;
+            racha = false;
+        }
+
+        puntsGuanyats = contador_racha*contador_lletra;
+        puntsActuals = puntsGuanyats + puntsActuals;
+        nPoints.textContent = puntsActuals;
+       
+
+
         mostrarParaula();
         console.log('existeix');
+
 
         if (!paraulaActual.includes('_')) {
             win()
         }
+        contador++;
 
 
     }else{
 
         console.log('no existeix');
         contador++;
-        punts--;
-
+        puntsActuals-= 1;
+        racha = false;
+        contador_racha = 0;
 
         //Para que no sea negativo la puntuación
-        if(punts > 0){
-            nPoints.textContent = punts;
+        if(puntsActuals > 0){
+            nPoints.textContent = puntsActuals;
         }else{
             nPoints.textContent = 0;
-            punts = 0;
+            puntsActuals = 0;
         }
         
 
@@ -253,8 +282,8 @@ function totalPartides(){
 
 
 function millorPuntuacio(){
-    if(puntsAnteriors < punts){
-        puntsAnteriors = punts;
+    if(puntsAnteriors < puntsActuals){
+        puntsAnteriors = puntsActuals;
         let fecha = new Date().toLocaleDateString('es-ES');
         let hora = new Date().toLocaleTimeString('es-ES');
         gameMaxPoints.textContent = `${fecha} ${hora} - ${puntsAnteriors} punts`;
