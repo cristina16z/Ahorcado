@@ -20,6 +20,10 @@ let nlletra;
 let punts = 0;
 let contador_totalPartidas = 0;
 let contador_wins = 0;
+let puntsAnteriors = 0;
+
+
+
 
 
 /************************************************  BUTTON COMENÇAR PARTIDA ******************************/
@@ -68,9 +72,7 @@ function startGame(){
     }
 
 
-    //Incremento Total Paritdas
-    contador_totalPartidas++;
-    totalGames.textContent = contador_totalPartidas;
+    totalPartides();
 
     habilitarButton();
     actualitzarParaulaInicial();
@@ -85,6 +87,7 @@ function reiniciarJoc(){
     adivinar.style.backgroundColor = "";
     contador = 0;
     imatge.src = "imatges/penjat_" + contador + ".jpg";
+
     punts = 0;
     nPoints.textContent = punts;
 }
@@ -144,14 +147,8 @@ function jugarLletra(lletra){
         for(let i = 0; i< wordSecret.length; i++){
             if(wordSecret[i] === lletraJugada){
                 paraulaActual[i] = lletraJugada;
-
-                if  (nPoints == 0){
-                    punts++;
-                    nPoints.textContent = punts;
-                }else{
-                    punts++;
-                    nPoints.textContent = punts;
-                }
+                punts++;
+                nPoints.textContent = punts;
             }
         }
         mostrarParaula();
@@ -167,6 +164,9 @@ function jugarLletra(lletra){
         console.log('no existeix');
         contador++;
         punts--;
+
+
+        //Para que no sea negativo la puntuación
         if(punts > 0){
             nPoints.textContent = punts;
         }else{
@@ -185,8 +185,6 @@ function jugarLletra(lletra){
         if (contador == MAX_INTENTS_JUGADES){
             lose();
         }
-
-       
     }
 }
 
@@ -201,8 +199,8 @@ function deshabilitarLletra(lletra){
 function win(){
     adivinar.style.backgroundColor = 'rgb(220, 250, 166)';
     contador_wins++;
-
     winGames.textContent = contador_wins;
+    millorPuntuacio();
     habilitarPlayNewGame();
 }
 
@@ -246,5 +244,19 @@ deshabilitarButton();
 
 
 
-/********************************* ESTADÍSTIQUES **********/
+/********************************************* ESTADÍSTIQUES ***********************************/
 
+function totalPartides(){
+    contador_totalPartidas++;
+    totalGames.textContent = contador_totalPartidas;
+}
+
+
+function millorPuntuacio(){
+    if(puntsAnteriors < punts){
+        puntsAnteriors = punts;
+        let fecha = new Date().toLocaleDateString('es-ES');
+        let hora = new Date().toLocaleTimeString('es-ES');
+        gameMaxPoints.textContent = `${fecha} ${hora} - ${puntsAnteriors} punts`;
+    }
+}
