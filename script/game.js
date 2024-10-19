@@ -4,7 +4,8 @@ const word = document.getElementById("word");
 const empezar = document.getElementById("start");
 const imatge = document.getElementById("imatge");
 const adivinar = document.getElementById("adivinar");
-const MAX_INTENTS_JUGADES = 11;
+const MAX_INTENTS_JUGADES = 10;
+const MAX_IMG = 11;
 
 let wordSecret;
 let contador = 0;
@@ -135,13 +136,13 @@ function jugarLletra(lletra){
         contador++;
 
         //Canviar d'imatge, cada cop que fallis fins el màxim de l'ultima imatge
-        if( contador < MAX_INTENTS_JUGADES){
+        if( contador < MAX_IMG){
             imatge.src = "imatges/penjat_" + contador + ".jpg";
             console.log(lletraJugada + contador)
         }
 
-        //Si es supera el máx número d'intents, PERDS
-        if (contador >= MAX_INTENTS_JUGADES){
+        //Si arriba al máx número d'intents, que son 10, PERDS
+        if (contador == MAX_INTENTS_JUGADES){
             lose();
         }
 
