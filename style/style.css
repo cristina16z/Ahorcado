@@ -1,6 +1,5 @@
 *{
     margin: 0;
- 
 }
 
 
@@ -32,7 +31,6 @@ header{
     justify-content: center;
     background-color: rgb(200, 209, 243);
     padding: 2%;
-    
 }
 
 
@@ -51,13 +49,12 @@ header{
     background-color: white;
     border: 1px solid black;  
     border-radius: 5px; 
-    /*width: 16vw;*/
+    
 }
 
 #imatge{
     width: 100%;
     border-radius: 5px; 
-
 }
 
 
@@ -69,7 +66,7 @@ header{
     border: 1px solid black;  
     border-radius: 5px; 
     padding: 1%;
-    /*width: 12vw;*/
+    
     
 }
 
@@ -89,8 +86,6 @@ header{
 .vacio{
     width: 15vw;
 }
-
-
 
 
 
