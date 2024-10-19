@@ -118,8 +118,7 @@ function jugarLletra(lletra){
     let lletraJugada = lletra.textContent;
 
     //deshabilitamos ése mismo botón/letra
-    lletra.disabled = true;
-    lletra.style.opacity = '0.5';
+    deshabilitarLletra(lletra);
 
     const aux = wordSecret.includes(lletraJugada);
    /* const aux2 = wordSecret.indexOf(lletraJugada);*/
@@ -161,9 +160,15 @@ function jugarLletra(lletra){
 }
 
 
+//Deshabilitamos la letra seleccionada para volver a cambiarle al color deshabilitado
+function deshabilitarLletra(lletra){
+    lletra.disabled = true;
+}
+
+
 //QUAN GUANYES
 function win(){
-    adivinar.style.backgroundColor = 'green';
+    adivinar.style.backgroundColor = 'rgb(220, 250, 166)';
     habilitarPlayNewGame();
 }
 
@@ -190,7 +195,6 @@ function deshabilitarButton(){
         let literal = "lletra_" + i;
         const botoA = document.getElementById(literal);
         botoA.disabled = true;
-        botoA.style.opacity = '0.5';
     }
 }
 
@@ -200,7 +204,6 @@ function habilitarButton(){
         let literal = "lletra_" + i;
         const botoA = document.getElementById(literal);
         botoA.disabled = false;
-        botoA.style.opacity = '1';
     }
 }
 

@@ -105,16 +105,28 @@ header{
 }
 
 
-
 .abecedari button{
     border: 1px solid black;
     padding: .8%;
-    border: 1px solid red;
-    color: red;
+    border: 1px solid black;
+    color: black;
     background-color: rgb(203, 252, 113);
     border-radius: 3px;
 }
 
-.abecedari > button:hover{
-    filter: brightness(1.2);
+
+/* Cuando están deshabilitados */
+.abecedari button:disabled {
+    opacity: 0.8;
+    color: red;
+    border: 1px solid red;
+    pointer-events: none; /* Desactivar interacción en botones deshabilitados */
 }
+
+
+/*Cambio de color del botón en hover (cuando pasa el ratón por encima). Cuando no está deshabilitado, habilitado */
+.abecedari button:hover:not(:disabled) {
+    border: 1px solid red;
+    color: red;
+}
+
