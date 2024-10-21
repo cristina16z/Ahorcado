@@ -137,8 +137,8 @@ function mostrarParaula(){
 
 
 
-
 /********************************************************  ABECEDARI  ******************************/
+
 
 function jugarLletra(lletra){
     
@@ -158,7 +158,6 @@ function jugarLletra(lletra){
         for(let i = 0; i< wordSecret.length; i++){
             if(wordSecret[i] === lletraJugada){
                 paraulaActual[i] = lletraJugada;
-                racha = true;
                 contador_lletra++;
                 
             }
@@ -167,8 +166,8 @@ function jugarLletra(lletra){
         if(racha){
             contador_racha++;
         }else{
-            contador_racha = 0;
-            racha = false;
+            contador_racha = 1;
+            racha = true;
         }
 
         puntsGuanyats = contador_racha*contador_lletra;
@@ -193,7 +192,7 @@ function jugarLletra(lletra){
         contador++;
         puntsActuals-= 1;
         racha = false;
-        contador_racha = 0;
+        contador_racha = 1;
 
         //Para que no sea negativo la puntuación
         if(puntsActuals > 0){
@@ -251,7 +250,6 @@ function habilitarPlayNewGame(){
 }
 
 
-
 function deshabilitarButton(){
     for(let i = 1; i<27; i++){
         let literal = "lletra_" + i;
@@ -269,6 +267,7 @@ function habilitarButton(){
     }
 }
 
+//Comenzamos con los botones del abecedario deshabilitados
 deshabilitarButton();
 
 
