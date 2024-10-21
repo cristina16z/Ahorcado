@@ -196,7 +196,6 @@ function jugarLletra(lletra){
         if (!paraulaActual.includes('_')) {
             win()
         }
-        contador++;
 
 
     }else{
