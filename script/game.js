@@ -83,7 +83,6 @@ function startGame(){
     estadisticas.style.backgroundColor = "rgb(83, 188, 148)";
     estadisticas2.style.backgroundColor = "rgb(188, 83, 113)";
 
-    totalPartides();
     habilitarButton();
     actualitzarParaulaInicial();
     mostrarParaula();
@@ -242,6 +241,7 @@ function deshabilitarLletra(lletra){
 //QUAN GUANYES
 function win(){
     adivinar.style.backgroundColor = 'rgb(220, 250, 166)';
+    totalPartides();
     guanyador();
     millorPuntuacio();
     habilitarPlayNewGame();
@@ -251,6 +251,8 @@ function win(){
 //QUAN PERDS
 function lose(){
     adivinar.style.backgroundColor = 'red';
+    //cambiar los _ por la palabra secreta completa
+    adivinar.textContent = wordSecret.split('').join(' ');
     habilitarPlayNewGame();
 }
 
