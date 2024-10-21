@@ -76,8 +76,6 @@ function startGame(){
     }
 
 
-    totalPartides();
-
     habilitarButton();
     actualitzarParaulaInicial();
     mostrarParaula();
@@ -230,6 +228,7 @@ function win(){
     winGames.textContent = contador_wins;
     millorPuntuacio();
     habilitarPlayNewGame();
+    totalPartides();
 }
 
 
@@ -238,6 +237,7 @@ function lose(){
     adivinar.style.backgroundColor = 'red';
     //cambiar los _ por la palabra secreta completa
     adivinar.textContent = wordSecret.split('').join(' ');
+    totalPartides();
     habilitarPlayNewGame();
 }
 
