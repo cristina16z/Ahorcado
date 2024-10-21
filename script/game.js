@@ -236,6 +236,8 @@ function win(){
 //QUAN PERDS
 function lose(){
     adivinar.style.backgroundColor = 'red';
+    //cambiar los _ por la palabra secreta completa
+    adivinar.textContent = wordSecret.split('').join(' ');
     habilitarPlayNewGame();
 }
 
