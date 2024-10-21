@@ -4,10 +4,18 @@ const word = document.getElementById("word");
 const empezar = document.getElementById("empezar");
 const imatge = document.getElementById("imatge");
 const adivinar = document.getElementById("adivinar");
+//Jugador1
+const estadisticas = document.getElementById("estadisticas");
 const nPoints = document.getElementById("nPoints");
 const totalGames = document.getElementById("totalGames");
 const winGames = document.getElementById("winGames");
 const gameMaxPoints = document.getElementById("gameMaxPoints");
+//Jugador2
+const estadisticas2 = document.getElementById("estadisticas2");
+const nPoints2 = document.getElementById("nPoints2");
+const totalGames2 = document.getElementById("totalGames2");
+const winGames2 = document.getElementById("winGames2");
+const gameMaxPoints2 = document.getElementById("gameMaxPoints2");
 
 const MAX_INTENTS_JUGADES = 10;
 const MAX_IMG = 11;
@@ -15,19 +23,15 @@ const MAX_IMG = 11;
 let wordSecret;
 let contador = 0;
 let paraulaActual = [];
-let nlletra;
 
-let puntscontador_lletra = 0;
 let contador_totalPartidas = 0;
-let contador_wins = 0;
-let puntsAnteriors = 0;
-
+let contador_wins = [0, 0];
+let puntsAnteriors = [0,0];
 let racha = false;
-let contador_racha = 0;
-let puntsActuals = 0;
+let contador_racha = 1;
 let puntsGuanyats = 0;
-
-
+let jugador = 1; //para el jugador1 = 1, y para el jugador2 = 0
+let puntsJugadors = [0,0];
 
 
 /************************************************  BUTTON COMENÇAR PARTIDA ******************************/
@@ -75,12 +79,15 @@ function startGame(){
         alert("Has d'afegir una paraula per poder començar a jugar");
     }
 
+    //comença el torn al jugador 1
+    estadisticas.style.backgroundColor = "rgb(83, 188, 148)";
+    estadisticas2.style.backgroundColor = "rgb(188, 83, 113)";
 
     totalPartides();
-
     habilitarButton();
     actualitzarParaulaInicial();
     mostrarParaula();
+    
 }
 
 
@@ -93,12 +100,14 @@ function reiniciarJoc(){
     imatge.src = "imatges/penjat_" + contador + ".jpg";
 
     //estadístiques
-    puntsActuals = 0;
     puntsGuanyats = 0;
-    contador_racha = 0; 
+    contador_racha = 1; 
     contador_lletra = 0;
+    puntsJugadors = [0,0];
     racha = false;
-    nPoints.textContent = puntsActuals;
+    //empieza en el jugador 1
+    jugador = 1; 
+    actualizarPuntuaciones();
 }
 
 
@@ -137,8 +146,8 @@ function mostrarParaula(){
 
 
 
-/********************************************************  ABECEDARI  ******************************/
 
+/********************************************************  ABECEDARI  ******************************/
 
 function jugarLletra(lletra){
     
@@ -163,22 +172,27 @@ function jugarLletra(lletra){
             }
         }
 
-        if(racha){
-            contador_racha++;
-        }else{
-            contador_racha = 1;
-            racha = true;
+        
+        
+        if (racha) {
+            contador_racha++; // Si ya estamos en racha, la aumentamos
+        } else {
+            contador_racha = 1; // Si es el primer acierto, empezamos con una racha de 1
+            racha = true; // La racha sigue activa
         }
 
-        puntsGuanyats = contador_racha*contador_lletra;
-        puntsActuals = puntsGuanyats + puntsActuals;
-        nPoints.textContent = puntsActuals;
        
 
 
         mostrarParaula();
-        console.log('existeix');
 
+        puntsGuanyats = contador_racha*contador_lletra;
+    
+        puntsJugadors[jugador] += puntsGuanyats;
+        actualizarPuntuaciones();
+       
+        console.log('existeix');
+        
 
         if (!paraulaActual.includes('_')) {
             win()
@@ -190,19 +204,18 @@ function jugarLletra(lletra){
 
         console.log('no existeix');
         contador++;
-        puntsActuals-= 1;
+        puntsJugadors[jugador] -= 1;
         racha = false;
         contador_racha = 1;
 
         //Para que no sea negativo la puntuación
-        if(puntsActuals > 0){
-            nPoints.textContent = puntsActuals;
-        }else{
-            nPoints.textContent = 0;
-            puntsActuals = 0;
+        if ( puntsJugadors[jugador]  < 0) {
+            puntsJugadors[jugador]  = 0;
         }
-        
 
+        actualizarPuntuaciones();
+        
+        
         //Canviar d'imatge, cada cop que fallis fins el màxim de l'ultima imatge
         if( contador < MAX_IMG){
             imatge.src = "imatges/penjat_" + contador + ".jpg";
@@ -213,6 +226,9 @@ function jugarLletra(lletra){
         if (contador == MAX_INTENTS_JUGADES){
             lose();
         }
+
+
+        changePlayer();
     }
 }
 
@@ -226,8 +242,7 @@ function deshabilitarLletra(lletra){
 //QUAN GUANYES
 function win(){
     adivinar.style.backgroundColor = 'rgb(220, 250, 166)';
-    contador_wins++;
-    winGames.textContent = contador_wins;
+    guanyador();
     millorPuntuacio();
     habilitarPlayNewGame();
 }
@@ -250,6 +265,7 @@ function habilitarPlayNewGame(){
 }
 
 
+
 function deshabilitarButton(){
     for(let i = 1; i<27; i++){
         let literal = "lletra_" + i;
@@ -267,7 +283,6 @@ function habilitarButton(){
     }
 }
 
-//Comenzamos con los botones del abecedario deshabilitados
 deshabilitarButton();
 
 
@@ -277,14 +292,74 @@ deshabilitarButton();
 function totalPartides(){
     contador_totalPartidas++;
     totalGames.textContent = contador_totalPartidas;
+    totalGames2.textContent = contador_totalPartidas;
 }
 
 
 function millorPuntuacio(){
-    if(puntsAnteriors < puntsActuals){
-        puntsAnteriors = puntsActuals;
-        let fecha = new Date().toLocaleDateString('es-ES');
-        let hora = new Date().toLocaleTimeString('es-ES');
-        gameMaxPoints.textContent = `${fecha} ${hora} - ${puntsAnteriors} punts`;
+
+    let fecha = new Date().toLocaleDateString('es-ES');
+    let hora = new Date().toLocaleTimeString('es-ES');
+    
+    if( puntsAnteriors[0] < puntsJugadors[0]){
+        puntsAnteriors[0] =  puntsJugadors[0];
+
+        gameMaxPoints2.textContent = `${fecha} ${hora} - ${puntsAnteriors[0]} punts`;
+
+    } 
+
+    if( puntsAnteriors[1] < puntsJugadors[1]){
+        puntsAnteriors[1] =  puntsJugadors[1];
+ 
+        gameMaxPoints.textContent = `${fecha} ${hora} - ${puntsAnteriors[1]} punts`;
     }
+}
+
+
+function guanyador(){
+
+    if (puntsJugadors[0] > puntsJugadors[1]) {
+        //Ha guanyat el jugador 2
+        contador_wins[0]++;
+        winGames2.textContent = contador_wins[0]; 
+    } else {
+         //Ha guanyat el jugador 1
+         contador_wins[1]++; 
+         winGames.textContent = contador_wins[1]; 
+    }
+
+
+    //Mostra el Guanyador amb l'alert després de que s'executi la resta de coses de win
+    setTimeout(() => {
+        if (puntsJugadors[0] > puntsJugadors[1]) {
+            alert("Ha guanyat el Jugador 2");
+        } else {
+            alert("Ha guanyat el Jugador 1");
+        }
+    }, 100);
+}
+
+
+function actualizarPuntuaciones(){
+    nPoints.textContent = puntsJugadors[1];
+    nPoints2.textContent = puntsJugadors[0];
+}
+
+/*************************************** MULTIJUGADOR ************************************/
+
+function changePlayer(){
+    if (jugador === 1){
+        //cambia el torn al jugador 2
+        jugador = 0; 
+        estadisticas2.style.backgroundColor = "rgb(83, 188, 148)";
+        estadisticas.style.backgroundColor = "rgb(188, 83, 113)";
+      
+    }else{
+        //cambia el torn al jugador 1
+        jugador = 1; 
+        estadisticas.style.backgroundColor = "rgb(83, 188, 148)";
+        estadisticas2.style.backgroundColor = "rgb(188, 83, 113)";
+        
+    }
+
 }

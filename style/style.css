@@ -59,7 +59,7 @@ header{
 
 
 
-
+/*Jugador 1*/
 .estadisticas{
     color: white;
     background-color: rgb(188, 83, 113);
@@ -83,10 +83,32 @@ header{
 .estadisticas p{
     margin-bottom: 10%;
 }
-.vacio{
-    width: 15vw;
+
+
+/*Jugador 2*/
+.estadisticas2{
+    color: white;
+    background-color: rgb(188, 83, 113);
+    border: 1px solid black;  
+    border-radius: 5px; 
+    padding: 1%;
+    
+    
 }
 
+.estadisticas2 h2{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15%;
+}
+
+.estadisticas2 p span{
+    display: flex;
+}
+
+.estadisticas2 p{
+    margin-bottom: 10%;
+}
 
 
 
