@@ -12,21 +12,32 @@ const gameMaxPoints = document.getElementById("gameMaxPoints");
 const MAX_INTENTS_JUGADES = 10;
 const MAX_IMG = 11;
 
-let wordSecret;
-let contador = 0;
-let paraulaActual = [];
-let nlletra;
 
-let puntscontador_lletra = 0;
-let contador_totalPartidas = 0;
-let contador_wins = 0;
-let puntsAnteriors = 0;
+const game = {
 
-let racha = false;
-let contador_racha = 0;
-let puntsActuals = 0;
-let puntsGuanyats = 0;
+    "wordSecret":"",
+    "contador": 0,
+    "paraulaActual": [],
+    "nlletra": 0,
+    
+    "contador_lletra": 0,
+    "contador_totalPartidas": 0,
+    "contador_wins": 0,
+    "puntsAnteriors":0,
+    
+    "racha": false,
+    "contador_racha": 0,
+    "puntsActuals":0,
+    "puntsGuanyats": 0,
 
+    "containsNumber": false,
+    "wordSecretValid":"",
+
+    "fecha": new Date(),
+    "hora": new Date()
+
+    
+};
 
 
 
@@ -34,36 +45,34 @@ let puntsGuanyats = 0;
 
 
 function startGame(){
-    wordSecret = word.value.toUpperCase();
+    game.wordSecret = word.value.toUpperCase();
 
     reiniciarJoc(); 
    
-    let containsNumber = false;
-    let wordSecretValid;
-
+    game.containsNumber = false;
 
     //añadir check de no pot contenir espais
-    for(let i = 0; i<wordSecret.length; i++){
-        if(!isNaN(wordSecret[i]) && wordSecret[i] !== ""){
-            containsNumber = true;  
+    for(let i = 0; i<game.wordSecret.length; i++){
+        if(!isNaN(game.wordSecret[i]) && game.wordSecret[i] !== ""){
+            game.containsNumber = true;  
             break;
         }
     }
 
 
 
-    if(wordSecret){
+    if(game.wordSecret){
 
-        if(containsNumber){
+        if(game.containsNumber){
             alert('La paraula no pot contenir números o espais en blanc');
             word.value = "";
-            containsNumber = false;
+            game.containsNumber = false;
             return;
-        }else if(wordSecret.length >3){
-            wordSecretValid = wordSecret.split("")
+        }else if(game.wordSecret.length >3){
+            game.wordSecretValid = game.wordSecret.split("")
 
-            console.log(wordSecret)
-            console.log( wordSecretValid )
+            console.log(game.wordSecret)
+            console.log( game.wordSecretValid )
 
             word.disabled = true;
             empezar.disabled = true;
@@ -84,19 +93,19 @@ function startGame(){
 
 //Resetejar els valors a l'hora de començar una nova partida (paraula, imatges, lletres,..)
 function reiniciarJoc(){
-    paraulaActual = [];
+    game.paraulaActual = [];
     adivinar.textContent = "";
     adivinar.style.backgroundColor = "";
-    contador = 0;
-    imatge.src = "imatges/penjat_" + contador + ".jpg";
+    game.contador = 0;
+    imatge.src = "imatges/penjat_" +  game.contador + ".jpg";
 
     //estadístiques
-    puntsActuals = 0;
-    puntsGuanyats = 0;
-    contador_racha = 0; 
-    contador_lletra = 0;
-    racha = false;
-    nPoints.textContent = puntsActuals;
+    game.puntsActuals = 0;
+    game.puntsGuanyats = 0;
+    game.contador_racha = 0; 
+    game.contador_lletra = 0;
+    game.racha = false;
+    nPoints.textContent = game.puntsActuals;
 }
 
 
@@ -118,8 +127,8 @@ function encriptacio(){
 
 
 function actualitzarParaulaInicial(){
-    for(let i=0; i<wordSecret.length; i++){
-        paraulaActual.push("_");
+    for(let i=0; i<game.wordSecret.length; i++){
+        game.paraulaActual.push("_");
     }
 
     //Com començo la partida, afegeixo espai entre les lletres per al joc.
@@ -128,8 +137,8 @@ function actualitzarParaulaInicial(){
 
 
 function mostrarParaula(){
-    adivinar.textContent = paraulaActual.toString().replaceAll(",", " ");
-    console.log(paraulaActual, paraulaActual.toString());
+    adivinar.textContent = game.paraulaActual.toString().replaceAll(",", " ");
+    console.log(game.paraulaActual, game.paraulaActual.toString());
 }
 
 
@@ -140,37 +149,37 @@ function mostrarParaula(){
 
 function jugarLletra(lletra){
     
-    let lletraJugada = lletra.textContent;
+    game.lletraJugada = lletra.textContent;
 
     //deshabilitamos ése mismo botón/letra
     deshabilitarLletra(lletra);
 
-    const aux = wordSecret.includes(lletraJugada);
+    const aux = game.wordSecret.includes(game.lletraJugada);
    /* const aux2 = wordSecret.indexOf(lletraJugada);*/
 
    
     if(aux){
-        contador_lletra = 0;
+        game.contador_lletra = 0;
 
         //iteració per buscar la lletra i canviar la paraula actual per la posició en la que la troba
-        for(let i = 0; i< wordSecret.length; i++){
-            if(wordSecret[i] === lletraJugada){
-                paraulaActual[i] = lletraJugada;
-                contador_lletra++;
+        for(let i = 0; i< game.wordSecret.length; i++){
+            if(game.wordSecret[i] === game.lletraJugada){
+                game.paraulaActual[i] = game.lletraJugada;
+                game.contador_lletra++;
                 
             }
         }
 
-        if(racha){
-            contador_racha++;
+        if(game.racha){
+            game.contador_racha++;
         }else{
-            contador_racha = 1;
-            racha = true;
+            game.contador_racha = 1;
+            game.racha = true;
         }
 
-        puntsGuanyats = contador_racha*contador_lletra;
-        puntsActuals = puntsGuanyats + puntsActuals;
-        nPoints.textContent = puntsActuals;
+        game.puntsGuanyats = game.contador_racha*game.contador_lletra;
+        game.puntsActuals = game.puntsGuanyats + game.puntsActuals;
+        nPoints.textContent = game.puntsActuals;
        
 
 
@@ -178,7 +187,7 @@ function jugarLletra(lletra){
         console.log('existeix');
 
 
-        if (!paraulaActual.includes('_')) {
+        if (!game.paraulaActual.includes('_')) {
             win()
         }
 
@@ -186,28 +195,28 @@ function jugarLletra(lletra){
     }else{
 
         console.log('no existeix');
-        contador++;
-        puntsActuals-= 1;
-        racha = false;
-        contador_racha = 1;
+        game.contador++;
+        game.puntsActuals-= 1;
+        game.racha = false;
+        game.contador_racha = 1;
 
         //Para que no sea negativo la puntuación
-        if(puntsActuals > 0){
-            nPoints.textContent = puntsActuals;
+        if(game.puntsActuals > 0){
+            nPoints.textContent = game.puntsActuals;
         }else{
             nPoints.textContent = 0;
-            puntsActuals = 0;
+            game.puntsActuals = 0;
         }
         
 
         //Canviar d'imatge, cada cop que fallis fins el màxim de l'ultima imatge
-        if( contador < MAX_IMG){
-            imatge.src = "imatges/penjat_" + contador + ".jpg";
-            console.log(lletraJugada + contador)
+        if( game.contador < MAX_IMG){
+            imatge.src = "imatges/penjat_" + game.contador + ".jpg";
+            console.log(game.lletraJugada + game.contador)
         }
 
         //Si arriba al máx número d'intents, que son 10, PERDS
-        if (contador == MAX_INTENTS_JUGADES){
+        if (game.contador == MAX_INTENTS_JUGADES){
             lose();
         }
     }
@@ -223,8 +232,8 @@ function deshabilitarLletra(lletra){
 //QUAN GUANYES
 function win(){
     adivinar.style.backgroundColor = 'rgb(220, 250, 166)';
-    contador_wins++;
-    winGames.textContent = contador_wins;
+    game.contador_wins++;
+    winGames.textContent = game.contador_wins;
     millorPuntuacio();
     habilitarPlayNewGame();
     totalPartides();
@@ -235,7 +244,7 @@ function win(){
 function lose(){
     adivinar.style.backgroundColor = 'red';
     //cambiar los _ por la palabra secreta completa
-    adivinar.textContent = wordSecret.split('').join(' ');
+    adivinar.textContent = game.wordSecret.split('').join(' ');
     totalPartides();
     habilitarPlayNewGame();
 }
@@ -276,16 +285,16 @@ deshabilitarButton();
 /********************************************* ESTADÍSTIQUES ***********************************/
 
 function totalPartides(){
-    contador_totalPartidas++;
-    totalGames.textContent = contador_totalPartidas;
+    game.contador_totalPartidas++;
+    totalGames.textContent = game.contador_totalPartidas;
 }
 
 
 function millorPuntuacio(){
-    if(puntsAnteriors < puntsActuals){
-        puntsAnteriors = puntsActuals;
-        let fecha = new Date().toLocaleDateString('es-ES');
-        let hora = new Date().toLocaleTimeString('es-ES');
-        gameMaxPoints.textContent = `${fecha} ${hora} - ${puntsAnteriors} punts`;
+    if(game.puntsAnteriors < game.puntsActuals){
+        game.puntsAnteriors = game.puntsActuals;
+        game.fecha = new Date().toLocaleDateString('es-ES');
+        game.hora = new Date().toLocaleTimeString('es-ES')
+        gameMaxPoints.textContent = `${game.fecha} ${game.hora} - ${game.puntsAnteriors} punts`;
     }
 }
