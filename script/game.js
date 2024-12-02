@@ -34,10 +34,24 @@ const game = {
     "wordSecretValid":"",
 
     "fecha": new Date(),
-    "hora": new Date()
+    "hora": new Date(),
 
-    
+    /*
+    "setPartides": function(){
+        this.contador_totalPartidas
+    }
+    */
+
 };
+
+    /* Explicació - Teoria
+    const puntsTotal = function(){
+    }
+
+    let llistaBoton = document.querySelectorAll(".button");
+    const llistaBotons = llistaBoton;
+    */
+
 
 
 
