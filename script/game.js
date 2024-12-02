@@ -9,6 +9,8 @@ const totalGames = document.getElementById("totalGames");
 const winGames = document.getElementById("winGames");
 const gameMaxPoints = document.getElementById("gameMaxPoints");
 
+const seccioButtons = document.querySelector(".abecedari")
+
 const MAX_INTENTS_JUGADES = 10;
 const MAX_IMG = 11;
 
@@ -52,7 +54,31 @@ const game = {
     const llistaBotons = llistaBoton;
     */
 
+   
+    let alfabet = "";
 
+    const loadButtons = function(){
+        
+        
+        fetch('http://127.0.0.1:5500/script/alfabet.json')
+        .then(function(response){
+            // response.status
+            return response.json();
+        })
+        .then(function(data){
+            alfabet = data.alfabet;
+           
+            for(let i = 0; i< alfabet.length; i++){
+                const boto = document.createElement("button");
+                boto.className ="button-game";
+                boto.textContent = alfabet[i];
+                boto.addEventListener("click", () => jugar(boto));
+                seccioButtons.appendChild(boto);
+            }
+        });
+    }
+
+    loadButtons();
 
 
 /************************************************  BUTTON COMENÇAR PARTIDA ******************************/
@@ -275,20 +301,20 @@ function habilitarPlayNewGame(){
 
 
 function deshabilitarButton(){
-    for(let i = 1; i<27; i++){
-        let literal = "lletra_" + i;
-        const botoA = document.getElementById(literal);
-        botoA.disabled = true;
-    }
+    // for(let i = 1; i<27; i++){
+    //     let literal = "lletra_" + i;
+    //     const botoA = document.getElementById(literal);
+    //     botoA.disabled = true;
+    // }
 }
 
 
 function habilitarButton(){
-    for(let i = 1; i<27; i++){
-        let literal = "lletra_" + i;
-        const botoA = document.getElementById(literal);
-        botoA.disabled = false;
-    }
+    // for(let i = 1; i<27; i++){
+    //     let literal = "lletra_" + i;
+    //     const botoA = document.getElementById(literal);
+    //     botoA.disabled = false;
+    // }
 }
 
 //Comenzamos con los botones del abecedario deshabilitados
