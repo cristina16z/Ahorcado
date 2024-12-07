@@ -38,21 +38,14 @@ const game = {
     "fecha": new Date(),
     "hora": new Date(),
 
-    /*
-    "setPartides": function(){
-        this.contador_totalPartidas
+    
+    "setTotalPartides": function(){
+        this.contador_totalPartidas++;
+        totalGames.textContent = this.contador_totalPartidas;
     }
-    */
+    
 
 };
-
-    /* Explicació - Teoria
-    const puntsTotal = function(){
-    }
-
-    let llistaBoton = document.querySelectorAll(".button");
-    const llistaBotons = llistaBoton;
-    */
 
    
     let alfabet = "";
@@ -276,7 +269,8 @@ function win(){
     winGames.textContent = game.contador_wins;
     millorPuntuacio();
     habilitarPlayNewGame();
-    totalPartides();
+    //totalPartides();
+    game.setTotalPartides();
 }
 
 
@@ -285,7 +279,6 @@ function lose(){
     adivinar.style.backgroundColor = 'red';
     //cambiar los _ por la palabra secreta completa
     adivinar.textContent = game.wordSecret.split('').join(' ');
-    totalPartides();
     habilitarPlayNewGame();
 }
 
@@ -315,6 +308,11 @@ function habilitarButton(){
     //     const botoA = document.getElementById(literal);
     //     botoA.disabled = false;
     // }
+
+    const botones = seccioButtons.querySelectorAll(".button-game");
+    botones.forEach((boto) => {
+        boto.disabled = false; 
+    });
 }
 
 //Comenzamos con los botones del abecedario deshabilitados
@@ -324,10 +322,11 @@ deshabilitarButton();
 
 /********************************************* ESTADÍSTIQUES ***********************************/
 
+/*
 function totalPartides(){
     game.contador_totalPartidas++;
     totalGames.textContent = game.contador_totalPartidas;
-}
+}*/
 
 
 function millorPuntuacio(){
