@@ -337,3 +337,33 @@ function millorPuntuacio(){
         gameMaxPoints.textContent = `${game.fecha} ${game.hora} - ${game.puntsAnteriors} punts`;
     }
 }
+
+
+
+/****************************************** FETCH ***********************************************/
+
+
+const exempleJsonUrl = "http://127.0.0.1:5500/script/exemple.json";
+
+
+function carregarInformacio() {
+    fetch(exempleJsonUrl)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            const segonObjecte = data.tematiques[1]; 
+            const nom = segonObjecte.nom; 
+            const paraula = segonObjecte.paraules[2]; 
+
+            // Consola
+            console.log(`Nom: ${nom}`);
+            console.log(`Paraula: ${paraula}`);
+
+            //DOM
+            const resultat = document.getElementById("resultat");
+            resultat.textContent = `Nom: ${nom}, Paraula: ${paraula}`;
+        })
+}
+
+carregarInformacio();
