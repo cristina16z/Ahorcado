@@ -72,7 +72,7 @@ const game = {
                 const boto = document.createElement("button");
                 boto.className ="button-game";
                 boto.textContent = alfabet[i];
-                boto.addEventListener("click", () => jugar(boto));
+                boto.addEventListener("click", () => jugarLletra(boto));
                 seccioButtons.appendChild(boto);
             }
         });
